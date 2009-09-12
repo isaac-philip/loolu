@@ -24,9 +24,6 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 from django.utils import simplejson
 from django.http  import HttpResponse
 
-class BadSerializeProtocol(Exception):
-    def __init__(self):
-        super(BadSerializeProtocol, self).__init__()
 
 class Serialize(object):
     def __init__(self):
