@@ -33,19 +33,24 @@ class URLHash(object):
             self.base = len(codeset)
 
     def encode(self, id):
-	hash = ""
+        hash = ""
 
-	while (id > 0):
-		hash = self.codeset[int(id % self.base)] + hash
-		id = math.floor(id / self.base)
+        while (id > 0):
+            hash = self.codeset[int(id % self.base)] + hash
+            id = math.floor(id / self.base)
 
-	return hash
+        return hash
 
     def decode(self, encoded):
         id = 0
 
         for index, char in enumerate(encoded[::-1]):
-            id += self.codeset.find(char) * math.pow(self.base,index)
+            n = self.codeset.find(char)
+
+            if n == -1:
+                return 0 # Invalid hash
+
+            id += n * math.pow(self.base, index)
 
         return int(id)
 

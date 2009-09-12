@@ -111,12 +111,12 @@ class MissingParam(Status):
         super(MissingParam, self).__init__(7, HTTP_STATUS_BAD_REQ,
               param_name, "Please provide a valid '%s'", param_label)
 
-class ValidationError(Status):
+class InvalidParam(Status):
     def __str__(self):
-        return 'ERR_VALIDATION_ERROR'
+        return 'ERR_INVALID_PARAM'
 
     def __init__(self, param_name, msg):
-        super(ValidationError, self).__init__(8, HTTP_STATUS_BAD_REQ,
+        super(InvalidParam, self).__init__(8, HTTP_STATUS_BAD_REQ,
               param_name, "%s", msg)
 
 class NoChanges(Status):
@@ -137,7 +137,7 @@ _STATUS_OBJECTS = [
     InvalidAPIKey(None, None),
     InvalidCredentials(),
     MissingParam(None, None),
-    ValidationError(None, None),
+    InvalidParam(None, None),
     NoChanges(),
 ]
 
