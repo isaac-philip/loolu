@@ -24,8 +24,9 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 import re
 
 from google.appengine.ext.db import djangoforms
+from django.forms            import ValidationError
 
-from common.lib.status import Status, ValidationError
+from common.lib.status import Status, InvalidParam
 
 
 class ModelForm(djangoforms.ModelForm):
@@ -64,9 +65,9 @@ class ModelForm(djangoforms.ModelForm):
         for p in self.errors:
             for e in self.errors[p]:
                 if status.is_success():
-                    status = ValidationError(p, unicode(e))
+                    status = InvalidParam(p, unicode(e))
                 else:
-                    status.append(ValidationError(p, unicode(e)))
+                    status.append(InvalidParam(p, unicode(e)))
 
         return status
 
