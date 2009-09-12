@@ -44,11 +44,13 @@ class LogRequestMiddleware(object):
         cache/db/file and set the cookie header *unless* the     
         the session object has been modified
         """
-        if request.session.modified or settings.SESSION_SAVE_EVERY_REQUEST:
-            session_key = request.session.session_key
-        else:
-            session_key = request.COOKIES.get(
-                settings.SESSION_COOKIE_NAME, None)
+        session_key = None
+        if hasattr(request, 'session'):
+            if request.session.modified or settings.SESSION_SAVE_EVERY_REQUEST:
+                session_key = request.session.session_key
+            else:
+                session_key = request.COOKIES.get(
+                    settings.SESSION_COOKIE_NAME, None)
 
         log = PageRequest(
                   method         = request.META.get('REQUEST_METHOD'),
