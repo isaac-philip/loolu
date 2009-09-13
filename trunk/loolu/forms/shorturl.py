@@ -78,9 +78,9 @@ class ShortURLForm(ModelForm):
         slug = data['custom_slug']
 
         self.validate_len('custom_slug', None, settings.MAX_CUSTOM_NAME_LEN) 
-        self.validate_regx('custom_slug', '^[\w-]+$',
-                           _(u"Keywords may only contain letters," +
-                              " numbers, underscores and dashes."))
+        self.validate_regx('custom_slug', '^[\w]+$',
+                           _(u"Custom slug '%s' may only contain letters," +
+                              " numbers and underscores.") % slug)
 
         shortURL = ShortURL.find_slug(data['host'], slug)
         if shortURL:

@@ -92,7 +92,7 @@ class API(object):
 
             if settings.SPIDER_ENABLED:
                 if not settings.SPIDER_IN_BACKGROUND:
-                    self.process_short_url(shortURL)
+                    status = self.process_short_url(shortURL)
                 else:
                     taskqueue.add(url='/work/process_short_url/', method='GET',
                           params=dict(url=shortURL.long_url, host=shortURL.host,
@@ -122,7 +122,7 @@ class API(object):
 
             shortURL.put()  
         except URLError, e:
-            status = URLOpenFailed(shortURL.long_url, str(e.reason)) 
+            status = URLOpenFailed(shortURL.long_url, e.code) 
         except:
             status = InternalError(str(sys.exc_info()[1]))
 

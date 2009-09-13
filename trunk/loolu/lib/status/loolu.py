@@ -47,9 +47,10 @@ class URLOpenFailed(Status):
     def __str__(self):
         return 'ERR_URL_OPEN_FAILED'
 
-    def __init__(self, url, reason):
+    def __init__(self, url, code):
         super(URLOpenFailed, self).__init__(102, HTTP_STATUS_NOT_FOUND,
-              None, "Unable to open %s: %s", url, reason) 
+              None, "Unable to open '%s': received error code %s. " +
+                    "Are you sure this is a valid URL?", url, code) 
 
 
 _STATUS_OBJECTS = [
