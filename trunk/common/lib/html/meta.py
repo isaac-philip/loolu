@@ -21,5 +21,52 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 """
 
-from meta import MetaParser
+import sgmllib
 
+
+class MetaParser(sgmllib.SGMLParser):
+    def __init__(self):
+        self.save  = False
+        self.data  = None
+        self.title = None
+        self.meta  = dict()
+        sgmllib.SGMLParser.__init__(self)
+
+    def parse(self, s):
+        self.feed(s)
+        self.close()
+
+    def save_bgn(self):
+        self.save = True
+
+    def save_end(self):
+        self.save = False
+        return self.data
+
+    def start_meta(self, attr):
+        key = None
+        val = None
+
+        for a in attr:
+            if len(a) != 2:
+                continue
+            elif a[0] == 'content':
+                val = a[1]
+            elif a[0] == 'http-equiv' or a[0] == 'name':
+                key = a[1]
+
+        if key and val:
+            self.meta[key] = val
+
+    def start_title(self, attr):
+        self.save_bgn()
+
+    def handle_data(self, data):
+        if self.save:
+            self.data = data
+        else:
+            self.data = None
+
+    def end_title(self):
+        self.title = self.save_end()
+    
