@@ -52,7 +52,9 @@ class URL(object):
 
        if self.qs:
            self.parts[4] = ''
-           for name in self.qs:
+           keys = self.qs.keys()
+           keys.sort()
+           for name in keys:
                k = '&' + name + '='
                v = k.join(self.qs[name])
                p = k + v
