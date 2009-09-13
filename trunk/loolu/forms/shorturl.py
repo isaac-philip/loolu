@@ -78,9 +78,9 @@ class ShortURLForm(ModelForm):
         slug = data['custom_slug']
 
         self.validate_len('custom_slug', None, settings.MAX_CUSTOM_NAME_LEN) 
-        self.validate_regx('custom_slug', '^[\w]+$',
-                           _(u"Custom slug '%s' may only contain letters," +
-                              " numbers and underscores.") % slug)
+        self.validate_regx('custom_slug', '^[\w\-]+$',
+                           _(u"Custom slug '%s' may only contain letters, " +
+                              "numbers, underscores and dashes.") % slug)
 
         shortURL = ShortURL.find_slug(data['host'], slug)
         if shortURL:
@@ -172,7 +172,7 @@ class ShortURLForm(ModelForm):
             if not shortURL.privacy_code:
                 shortURL.short_url  = 'http://%s/%s' % (host, shortURL.slug)
             else:
-                shortURL.short_url  = 'http://%s/%s-%s' % (host,
+                shortURL.short_url  = 'http://%s/%s+%s' % (host,
                                       shortURL.slug, shortURL.privacy_code)
 
         if shortURL.custom_slug and not shortURL.custom_url:
@@ -182,7 +182,7 @@ class ShortURLForm(ModelForm):
                 shortURL.custom_url  = 'http://%s/%s' % (host,
                                        shortURL.custom_slug)
             else:
-                shortURL.custom_url  = 'http://%s/%s-%s' % (host,
+                shortURL.custom_url  = 'http://%s/%s+%s' % (host,
                                        shortURL.custom_slug,
                                        shortURL.privacy_code)
 
