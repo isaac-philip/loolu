@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<!-- {{ MEDIA_URL }} -->
+ <meta name="notes" content=""/>
+  <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7"/>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+  <title>{% block title %}{% endblock %} | loo.lu</title>
+
+  <link rel="icon" href="/img/favicon.png" type="image/x-icon"/>
+  <link rel="shortcut icon" href="/img/favicon.png" type="image/x-icon"/>
+
+  <link rel="stylesheet" href="{{ MEDIA_URL }}loolu-combined.css"
+        type="text/css"/>
+  <!--[if IE 6]>
+  <link rel="stylesheet" href="{{ MEDIA_URL }}loolu-ie6-combined.css"
+        type="text/css"/>
+  <![endif]-->
+  {% block css_include %}{% endblock %}
+
+  {% block css %}{% endblock %}
+
+  <script type="text/javascript" charset="utf-8"
+          src="{{ MEDIA_URL }}jquery-combined-en.js"></script>
+ 
+  <script type="text/javascript" charset="utf-8"
+          src="{{ MEDIA_URL }}loolu-combined-en.js"></script>
+
+  <script type="text/javascript">
+      <!--
+      $(document).ready(function() {
+           $.initPage(window.location.pathname);
+      });
+      -->
+  </script>
+
+  {% block js %}{% endblock %}
+</head>
+
+<body>
+  <div id="container">
+    <div id="header">
+      <div id="logo">
+        <div id="domainname">
+          <a href="/url-shortener/">loo<span class="domaindot">.</span>lu</a>
+        </div>
+         <div id="tagline">
+           <a href="/url-shortener/">It's your link. We just shorten it!</a>
+        </div>
+      </div>
+      <div id="login">
+        <a href="#">Sign In</a> or <a
+           href="#"><em>Register</em> for more features</a>
+      </div>
+    </div>
+
+    <div id="nav">
+      <ul>
+        <li><a href="/url-shortener/">URL Shortener</a></li>
+        <li><a href="/faq/">FAQ</a></li>
+        <li><a href="/api/">API</a></li>
+        <li><a href="/api/">Code</a></li>
+      </ul>
+    </div>
+
+    <div id="main">
+      {% block main %}{% endblock %}
+    </div>
+
+    <div id="sidebar">
+      {% block sidebar %}{% endblock %}
+    </div>
+
+    <div id="footer">
+      <p class=""><a href="/about/">About</a> |
+      <a href="/privacy/">Privacy</a> |
+      <a href="/terms/">Terms</a> | <a href=
+      "/api/">API</a></p>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+      var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+      document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+  <script type="text/javascript">
+      try {
+          var pageTracker = _gat._getTracker("UA-10648531-2");
+          pageTracker._setDomainName("my.loo.lu");
+          pageTracker._trackPageview();
+      } catch(err) {}
+  </script>
+</body>
+</html>

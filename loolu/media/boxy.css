@@ -1,0 +1,249 @@
+/**
+ * LooLu is Copyright (c) 2009 Shannon Johnson, http://loo.lu/
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining
+ * a copy of this software and associated documentation files (the
+ * "Software"), to deal in the Software without restriction, including
+ * without limitation the rights to use, copy, modify, merge, publish,
+ * distribute, sublicense, and/or sell copies of the Software, and to
+ * permit persons to whom the Software is furnished to do so, subject to
+ * the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+ * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+ * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+ * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ **/
+
+@media screen,projection
+{
+    .boxy
+    {
+        overflow:hidden;
+        float:left;
+        width:100%;
+        position:relative;
+        margin:0 -5px 1em;
+        border:4px solid #EBF2EE;
+        background:#fff;
+        -webkit-border-radius:9px;
+        
+    }
+    .content
+    {
+        overflow:hidden;
+        padding:.75em 16px;
+        border:1px solid #C0CCC4;
+        -webkit-border-radius:5px;
+        
+    }
+    .boxy .number
+    {
+        font-size:1.125em;
+        padding-right:.2em;
+        
+    }
+    .boxy .accentheader
+    {
+        overflow:hidden;
+        margin-bottom:0;
+        
+    }
+    .boxy .accentheader h2
+    {
+        float:left;
+        margin-right:8px;
+        margin-top:.1em;
+        font-size:14px;
+        text-transform:uppercase;
+        color:#50AD2D;
+        
+    }
+    .boxy p.more
+    {
+        margin-top:.25em;
+        margin-bottom:.25em;
+        line-height:1em;
+        padding-top:5px;
+        
+    }
+    .boxy p.more.schemagroup
+    {
+        background-position:0 0;
+        
+    }
+    .boxy p.more a
+    {
+        font-size:.75em;
+        font-weight:bold;
+        
+    }
+    .boxy h2.boxy-header
+    {
+        font-size:.875em;
+        font-weight:bold;
+        position:relative;
+        padding:.5em 16px;
+        margin:-0.857em -16px .875em;
+        background:#ccc;
+        border-bottom:1px solid #C0CCC4;
+        background:#DBE6DF url(/img/boxy/grad_bg.gif) repeat-x;
+        text-shadow:1px 1px 0 #fff;
+        -webkit-border-top-left-radius:5px;
+        -webkit-border-top-right-radius:5px;
+        
+    }
+    .boxy-preheader
+    {
+        padding:.25em 16px;
+        
+    }
+    .boxy hr
+    {
+        border-color:#DBE6DF;
+        border-style:solid;
+        border-width:1px 0 0;
+        clear:both;
+        margin:.75em 0;
+        height:0;
+        
+    }
+    .boxy .inset
+    {
+        padding:.25em 4px;
+        background:#EBF2EE;
+        overflow:hidden;
+        -webkit-border-radius:5px;
+        
+    }
+    .boxy.special
+    {
+        border:1px solid #C0CCC4;
+        
+    }
+    .boxy.special .content
+    {
+        border:4px solid #ddf7cc;
+        background:#edfce3;
+        -webkit-border-radius:9px;
+        
+    }
+    .boxy.special
+    {
+        margin:.5em 0;
+        
+    }
+    .boxy.special p
+    {
+        font-size:.75em;
+        margin-bottom:0;
+        
+    }
+    .boxy.hidden-items p
+    {
+        margin-bottom:0;
+        
+    }
+    .boxy.hidden-items .right
+    {
+        margin-left:2em;
+        
+    }
+    .boxy .pane
+    {
+        display:none;
+        min-height:6em;
+        
+    }
+    .boxy .pane.current
+    {
+        display:block;
+        
+    }
+    .boxy .pane .loading
+    {
+        margin:2em -3em;
+        position:absolute;
+        left:50%;
+        text-align:center;
+        font-size:.875em;
+        color:#808c85;
+        padding-left:20px;
+        background:url(/img/boxy/pane-loading.gif) no-repeat;
+        
+    }
+    .boxy #tabs>h2
+    {
+        font-size:1.4em;
+        margin-bottom:-1.6em;
+        margin-left:0;
+        margin-right:0;
+        margin-top:0;
+    }
+    .boxy #tabs>ul
+    {
+        text-align:left;
+        margin:1em 0 1em 0;
+        font:bold 11px inherited;
+        border-bottom:1px solid #C0CCC4;
+        list-style-type:none;
+        padding:3px 10px 3px 10px;
+        
+    }
+    .boxy #tabs>ul li
+    {
+        display:inline;
+        
+    }
+    .boxy #tabs>ul a
+    {
+        -webkit-background-clip:border;
+        -webkit-background-origin:padding;
+        -webkit-border-bottom-left-radius:0;
+        -webkit-border-bottom-right-radius:0;
+        -webkit-border-top-left-radius:5px;
+        -webkit-border-top-right-radius:5px;
+        color:#888;
+        padding:3px 15px;
+        border:1px solid #C0CCC4;
+        background-color:#EBF2EE;
+        margin-right:0;
+        text-decoration:none;
+        border-bottom:none;
+        
+    }
+    .boxy #tabs>ul a:hover
+    {
+        color:#000;
+        border-color:#808c85;
+        
+    }
+    .boxy #tabs .ui-tabs,
+    .boxy #tabs .ui-tabs-hide
+    {
+        display:none;
+        
+    }
+    .boxy #tabs .ui-tabs-selected
+    {
+        border-bottom:1px solid #fff;
+        background-color:#fff;
+        
+    }
+    .boxy #tabs .ui-tabs-selected a
+    {
+        background-color:#fff;
+        color:#000;
+        position:relative;
+        top:1px;
+        padding-top:4px;
+        
+    }
+}
+
