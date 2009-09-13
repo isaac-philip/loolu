@@ -1,0 +1,251 @@
+{% extends 'base.html' %}
+
+{% block title %}It's your link. We just shorten it!{% endblock %}
+
+{% block css %}
+  <style type="text/css">
+    td {margin:0;padding:0 0 4px 10px;}
+    table {margin:0;padding-right:20px;width:100%}
+    #results table {width:100%;margin:0;}
+    #results .label {width:10%}
+    #long_url {width:82%;}
+    #notes {width:100%;height:3.6em;}
+    #custom_slug {width:150px;}
+    #subdomain {width:auto}
+    #privacy_code {width:90px;}
+    #show_expanded_options a {float:right;margin-right:50px;}
+    #attributes .label {width:86px}
+    #analytics .label {width:82px}
+    #analytics input[type=text] {width:160px}
+    #shareit_title input[type=text] {width:99%;}
+    #shareit_url input[type=text] {width:40%;}
+    #shareit_msg textarea {width:98%;height:3.6em;}
+    #options h2 {font-size: 1.4em;margin:0;}
+    .counter {float:right;font-weight:bold}
+    .safe {color: inherit;}
+    .over {color: red;}
+    .boxy #tabs .tabs {text-align: right;}
+    .destination {color: grey;}
+    .update_btn {float:right;margin:0;padding:4px 14px 4px 14px;}
+ 
+    .faq-link {
+      background-color: transparent;
+      background-image: url(/img/icon/faq-home.gif);
+      background-repeat: no-repeat;
+      border: 0px;
+      float: left;
+      height: 50px;
+      margin: 50px 0px 0px 0px;
+      padding: 0;
+      text-decoration: none;
+      text-indent: -9999px;
+      vertical-align: baseline;
+      width: 160px;
+    }
+  </style>
+{% endblock %}
+
+{% block sidebar %}
+      <div class="boxy">
+        <div class="content">
+          <div class="iconhelp">
+            <a class="faq-link" href="/faq/">New here? Read our FAQ.</a>
+          </div>
+        </div>
+      </div>
+    
+      <div class="boxy">
+        <div class="content">
+          <div class="accentheader">
+            <h2>Follow Us On...</h2>
+          </div>
+          <ul class="inlinelist">
+            <li><a class="icontwitter" href="http://twitter.com/loo_lu"
+                   target="_blank">Twitter</a></li>
+            <li><a class="iconfacebook"
+                   href="http://www.facebook.com/pages/loolu/117377841505"
+                   target="_blank">Facebook</a></li>
+          </ul>
+        </div>
+      </div>
+{% endblock %}
+
+{% block main %}
+      <form id="shorten_form" action="/api/json/shorten/" method="get">
+        <div class="boxy">
+          <div class="content">
+            <div id="options">
+              <h2>Shorten your long link here:</h2>
+              <span id="errorlist"></span>
+              <input id="long_url" name="long_url" type="text"
+                     class="placeholder" maxlength="2083"/>
+              <input id="shorten_btn" class="button" type="submit"
+                     value="Shorten it!"/>
+              <span id="loading" class="loading hide"> &nbsp;</span>
+            </div>
+            <div id="show_expanded_options">
+              <a href="#expanded_options">Show Options</a>
+            </div>
+          </div>
+        </div>
+     
+        <div id="results" class="boxy hide">
+          <div class="content">
+            <table>
+              <tr>
+                <td class="label">
+                  <label for="short_url">Short URL:</label>
+                </td>
+                <td>
+                  <input id="short_url" name="short_url" type="text"/>
+                  <input id="copy" class="button" type="button" value="Copy"
+                         title="Copy the short URL to the clipboard"/>
+                </td>
+              </tr>
+              <tr class="destination">
+                <td style="width: 10%"><label>Destination:</label></td>
+                <td><span style="display:inline"></span></td>
+              </tr>
+            </table>
+          </div>
+        </div>
+    
+        <div id="expanded_options" class="boxy hide">
+          <div class="content">
+            <div id="tabs">
+              <h2>Options</h2>
+              <ul class="tabs">
+                <li class="ui-tabs-selected"><a title="Short URL attributes"
+                    href="#attributes">Attributes</a></li>
+                <li><a title="Google Analytics: UTM Link Tagging"
+                       href="#analytics">Google Analytics</a></li>
+                <li><a title="Post to Social Network services such as Twitter"
+                       href="#share">Share It</a></li>
+              </ul>
+              <div class="clear" id="attributes">
+                <fieldset>
+                  <legend>Short URL Attributes</legend>
+                  <table>
+                    <tr>
+                      <td class="label"><label>Privacy Code:</label></td>
+                      <td>
+                        <input type="text" id="privacy_code"
+                                name="privacy_code" maxlength="10"/>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="label"><label>Custom URL:</label></td>
+                      <td>
+                        <label>http://</label>
+                          <select id="subdomain" name="subdomain">
+                            <option value="go">go</option>
+                            <option value="i">i</option>
+                            <option value="art">art</option>
+                            <option value="biz">biz</option>
+                            <option value="news">news</option>
+                            <option value="pic">pic</option>
+                            <option value="tech">tech</option>
+                            <option value="sports">sports</option>
+                            <option value="vid">vid</option>
+                          </select>
+                        <label>.loo.lu/</label>
+                        <input type="text" id="custom_slug"
+                               name="custom_slug" maxlength="20"/> 
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="2">
+                        <p><label>Notes:</label>
+                           <span class="counter"
+                                 id="notes_counter"></span><br/>
+                           <textarea rows="2" cols="20" id="notes"
+                                     name="notes"></textarea></p>
+                      </td>
+                    </tr>
+                  </table>
+                </fieldset>
+                <div>
+                  <input class="button update_btn" type="submit"
+                         value="Update" title="Update settings"/>
+                </div>
+              </div>
+      
+              <div id="share">
+                <fieldset>
+                  <legend>Share It</legend>
+
+                  <div id="shareit_form">
+                    <div id="shareit_url">
+                      <label>Short URL:</label><br>
+                      <input type="text"/>
+                    </div>
+
+                    <div id="shareit_title">
+                      <label>Title:</label><br>
+                      <input type="text"/>
+                    </div>
+
+                    <div id="shareit_msg">
+                      <label>Message:</label>
+                      <span class="counter"></span><br/>
+                      <textarea rows="2" cols="20"></textarea>
+                    </div>
+                  </div>
+
+                  <div class="shareit"></div>
+                </fieldset>
+                <div>
+                  <input class="button update_btn" type="button"
+                         id="shareit_btn" value="Share It!" title="Share It!"/>
+                </div>
+              </div>
+      
+               <div id="analytics">
+                 <fieldset>
+                   <legend>Google Analytic UTM Tags</legend>
+                   <table>
+                     <tr>
+                       <td class="label"><label>Source:</label></td>
+                       <td>
+                         <input type="text" id="utm_source" name="utm_source"/>
+                       </td>
+                     </tr>
+                     <tr>
+                       <td class="label"><label>Medium:</label></td>
+                       <td>
+                         <input type="text" id="utm_medium" name="utm_medium"/>
+                       </td>
+                     </tr>
+                     <tr>
+                       <td class="label"><label>Campaign:</label></td>
+                       <td>
+                         <input type="text" id="utm_campaign"
+                                name="utm_campaign"/>
+                       </td>
+                     </tr>
+                     <tr>
+                       <td class="label"><label>Term:</label></td>
+                       <td>
+                         <input type="text" id="utm_term" name="utm_term"/>
+                       </td>
+                     </tr>
+                     <tr>
+                       <td class="label"><label>Content:</label></td>
+                       <td>
+                         <input type="text" id="utm_content"
+                                name="utm_content"/>
+                       </td>
+                     </tr>
+                   </table>
+                 </fieldset> 
+                 <div>
+                   <input class="button update_btn" type="submit"
+                          value="Update" title="Update settings"/>
+                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+{% endblock %}
+

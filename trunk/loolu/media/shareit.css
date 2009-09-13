@@ -1,0 +1,181 @@
+/**
+ * LooLu is Copyright (c) 2009 Shannon Johnson, http://loo.lu/
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining
+ * a copy of this software and associated documentation files (the
+ * "Software"), to deal in the Software without restriction, including
+ * without limitation the rights to use, copy, modify, merge, publish,
+ * distribute, sublicense, and/or sell copies of the Software, and to
+ * permit persons to whom the Software is furnished to do so, subject to
+ * the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+ * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+ * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+ * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ **/
+
+@media screen,projection
+{
+    .shareit {
+        padding: 0;
+        float: left;
+        width: 100%;
+    }
+    .shareit>ul {
+        border-top: 1px solid #EBEBEB;
+        margin: 0px;
+        padding: 12px 0px;
+    }
+    .shareit>ul li {
+        display: inline;
+        float: left;
+        list-style: none;
+        margin: 0px 9px;
+        padding-top: 1px;
+    }
+    .shareit>ul li.first {
+        margin-left: 0px;
+    }
+    .shareit>ul li label {
+        display: block;
+        overflow: hidden;
+        float:left;
+        height: 14px;
+        width: 46px;
+        color: #808080;
+        font-size: 7px;
+        padding-top: 33px;
+        text-align: center;
+        text-decoration: none;
+        white-space: nowrap;
+        background: url(/img/shareit/buttons.gif) no-repeat;
+    }
+    .shareit>ul li input[type=radio] {
+        float:left;
+        margin: 25% 10px 0px 0px;
+        padding: 0px;
+    }
+    .shareit>ul li a {
+        display: block;
+        overflow: hidden;
+        height: 14px;
+        width: 46px;
+        color: #808080;
+        font-size: 7px;
+        padding-top: 33px;
+        text-align: center;
+        text-decoration: none;
+        white-space: nowrap;
+        background: url(/img/shareit/buttons.gif) no-repeat;
+    }
+    .shareit>ul li a:hover {
+        text-decoration: none;
+    }
+
+    .shareit .delicious a,
+    .shareit .delicious label {
+        background-position:-138px 0;
+    }
+    .shareit .delicious a:hover,
+    .shareit .delicious label:hover {
+        background-position:-138px -47px;
+    }
+
+    .shareit .digg a,
+    .shareit .digg label {
+        background-position:0 0;
+    }
+    .shareit .digg a:hover,
+    .shareit .digg label:hover {
+        background-position:0 -47px;
+    }
+
+    .shareit .technorati a,
+    .shareit .technorati label {
+        background-position:-322px 0;
+    }
+    .shareit .technorati a:hover,
+    .shareit .technorati label:hover {
+        background-position:-322px -47px;
+    }
+
+    .shareit .yahoo a,
+    .shareit .yahoo label {
+        background-position:-368px 0;
+    }
+    .shareit .yahoo a:hover,
+    .shareit .yahoo label:hover {
+        background-position:-368px -47px
+    }
+
+    .shareit .reddit a,
+    .shareit .reddit label {
+        background-position:-414px 0;
+    }
+    .shareit .reddit a:hover,
+    .shareit .reddit label:hover {
+        background-position:-414px -47px;
+    }
+
+    .shareit .stumbleupon a,
+    .shareit .stumbleupon label {
+        background-position:-92px 0;
+    }
+    .shareit .stumbleupon a:hover,
+    .shareit .stumbleupon label:hover {
+        background-position:-92px -47px;
+    }
+
+    .shareit .myspace a,
+    .shareit .myspace label {
+        background-position:-230px 0;
+    }
+    .shareit .myspace a:hover,
+    .shareit .myspace label:hover {
+        background-position:-230px -47px;
+    }
+
+    .shareit .facebook a,
+    .shareit .facebook label {
+        background-position:-184px 0;
+    }
+    .shareit .facebook a:hover,
+    .shareit .facebook label:hover {
+        background-position:-184px -47px;
+    }
+
+    .shareit .google a,
+    .shareit .google label {
+        background-position:-276px 0;
+    }
+    .shareit .google a:hover,
+    .shareit .google label:hover {
+        background-position:-276px -47px;
+    }
+
+    .shareit .twitter a,
+    .shareit .twitter label {
+        background-position:-46px 0;
+    }
+    .shareit .twitter a:hover,
+    .shareit .twitter label:hover {
+        background-position:-46px -47px;
+    }
+
+    .shareit .sharethis a,
+    .shareit .sharethis label {
+        background-position:-460px 0;
+    }
+    .shareit .sharethis a:hover,
+    .shareit .sharethis label:hover {
+        background-position:-460px -47px;
+    }
+}
+
