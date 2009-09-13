@@ -56,14 +56,14 @@ class MetaParser(sgmllib.SGMLParser):
                 key = a[1]
 
         if key and val:
-            self.meta[key] = val
+            self.meta[key] = val.strip()
 
     def start_title(self, attr):
         self.save_bgn()
 
     def handle_data(self, data):
         if self.save:
-            self.data = data
+            self.data = data.strip()
         else:
             self.data = None
 
