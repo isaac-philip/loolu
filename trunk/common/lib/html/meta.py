@@ -27,8 +27,8 @@ import sgmllib
 class MetaParser(sgmllib.SGMLParser):
     def __init__(self):
         self.save  = False
-        self.data  = None
-        self.title = None
+        self.data  = ''
+        self.title = ''
         self.meta  = dict()
         sgmllib.SGMLParser.__init__(self)
 
@@ -44,8 +44,8 @@ class MetaParser(sgmllib.SGMLParser):
         return self.data
 
     def start_meta(self, attr):
-        key = None
-        val = None
+        key = ''
+        val = ''
 
         for a in attr:
             if len(a) != 2:
@@ -63,9 +63,9 @@ class MetaParser(sgmllib.SGMLParser):
 
     def handle_data(self, data):
         if self.save:
-            self.data = data.replace('\n', '').strip()
+            self.data += data.replace('\n', '').strip()
         else:
-            self.data = None
+            self.data = ''
 
     def end_title(self):
         self.title = self.save_end()
