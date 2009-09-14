@@ -40,5 +40,9 @@ handlers:
   script: $PYTHON_LIB/google/appengine/ext/remote_api/handler.py
   login: admin
 
+- url: /work/.*
+  script: loolu/views/work.py
+  login: admin
+
 - url: /.*
   script: common/appenginepatch/main.py
