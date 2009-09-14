@@ -22,6 +22,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 """
 
 import sgmllib
+from htmlentitydefs import codepoint2name, name2codepoint, entitydefs
 
 
 class MetaParser(sgmllib.SGMLParser):
@@ -66,6 +67,13 @@ class MetaParser(sgmllib.SGMLParser):
             self.data += data.replace('\n', '').strip()
         else:
             self.data = ''
+
+    def handle_charref(self, ref):
+        self.handle_data('&#' + ref + ';')
+
+    def handle_entityref(self, ref):
+        if entitydefs.get(ref):
+            self.handle_data(entitydefs[ref])
 
     def end_title(self):
         self.title = self.save_end()
