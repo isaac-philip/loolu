@@ -48,7 +48,7 @@ urlpatterns = patterns('',
     ## Expand Slug
     (r'^(?P<slug>[\w\-]+)$',
       'loolu.views.site.expand'),
-    (r'^(?P<slug>[\w\-]+)[+](?P<privacy_code>[\w\d]+)$',
+    (r'^(?P<slug>[\w\-]+)[+](?P<privacy_code>[\w\-]+)$',
       'loolu.views.site.expand'),
 
     ## Task Queue Handlers
