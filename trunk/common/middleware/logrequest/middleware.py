@@ -36,8 +36,6 @@ class LogRequestMiddleware(object):
             if not p.match(request.path):
                 return response
 
-        raise Exception(request.path)
-
         referrer_host  = None
         referrer_uri   = None
         referrer       = request.META.get('HTTP_REFERER') 
