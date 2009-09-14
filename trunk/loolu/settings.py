@@ -47,6 +47,7 @@ settings.add_app_media(
     'loolu/style.css',
     'loolu/boxy.css',
     'loolu/shareit.css',
+    'loolu/vtip.css',
 )
 
 settings.add_app_media(
