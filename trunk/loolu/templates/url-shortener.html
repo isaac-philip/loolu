@@ -130,14 +130,16 @@
                       <td class="label"><label>Privacy Code:</label></td>
                       <td>
                         <input type="text" id="privacy_code"
-                                name="privacy_code" maxlength="10"/>
+                               name="privacy_code" maxlength="10" class="vtip"
+                               title="A privacy code is a unique code that must be appended to the URL to access it, for example, http://go.loo.lu/63de-<strong>SeCrEt</strong>. This prevents a URL from being viewed unless you give it out with this privacy code."/>
                       </td>
                     </tr>
                     <tr>
                       <td class="label"><label>Custom URL:</label></td>
                       <td>
                         <label>http://</label>
-                          <select id="subdomain" name="subdomain">
+                          <select id="subdomain" name="subdomain" class="vtip"
+                                  title="A custom subdomain helps make your short URL memorable and helps users classify the content of the target URL. Example: http://<strong>news</strong>.loo.lu/3Rd7">
                             <option value="go">go</option>
                             <option value="i">i</option>
                             <option value="art">art</option>
@@ -150,7 +152,8 @@
                           </select>
                         <label>.loo.lu/</label>
                         <input type="text" id="custom_slug"
-                               name="custom_slug" maxlength="20"/> 
+                               name="custom_slug" maxlength="20" class="vtip"
+                               title="A custom slug is a unique string that you can request we use to create your short URL. A custom slug should be easy to remember and can contain letters, numbers, underscores and dashes. Example: http://go.loo.lu/<strong>loolu-api</strong>"/> 
                       </td>
                     </tr>
                     <tr>
