@@ -31,8 +31,11 @@ from model import PageRequest
 
 class LogRequestMiddleware(object):
     def process_response(self, request, response):
-        if hasattr(settings, 'LOG_REQUEST_REGEX'):
-            p = re.compile(settings.LOG_REQUEST_REGEX)
+        if hasattr(settings, 'LOG_REQUEST_REQ_OBJ'):
+            if not hasattr(request, 'logrequest') or not request.logrequest:
+                return response
+        elif hasattr(settings, 'LOG_REQUEST_REGEXP'):
+            p = re.compile(settings.LOG_REQUEST_REGEXP)
             if not p.match(request.path):
                 return response
 
