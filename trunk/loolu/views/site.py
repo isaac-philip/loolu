@@ -23,7 +23,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 from google.appengine.api import memcache
 
-from django.http import HttpResponse, Http404, HttpResponsePermanentRedirect
+from django.http import Http404, HttpResponsePermanentRedirect
 
 from common.lib.counter  import CounterShard
 from loolu.models import ShortURL 
