@@ -49,6 +49,8 @@ def expand(request, slug, privacy_code=None):
     if cache.get('code') and privacy_code != cache.get('code'):
         raise Http404
 
+    setattr(request, 'logrequest', 1)
+
     counter = CounterShard('ShortURL', host, cache['slug'])
     counter.incr()
 
