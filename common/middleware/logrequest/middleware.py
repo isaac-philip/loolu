@@ -21,15 +21,23 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 """
 
+import re
+
 from urlparse import urlparse
 from django.conf import settings
 
 from model import PageRequest
 
-from google.appengine.ext import db
 
 class LogRequestMiddleware(object):
     def process_response(self, request, response):
+        if hasattr(settings, 'LOG_REQUEST_REGEX'):
+            p = re.compile(settings.LOG_REQUEST_REGEX)
+            if not p.match(request.path):
+                return response
+
+        raise Exception(request.path)
+
         referrer_host  = None
         referrer_uri   = None
         referrer       = request.META.get('HTTP_REFERER') 
