@@ -21,6 +21,7 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 """
 
+import re
 import sgmllib
 from htmlentitydefs import codepoint2name, name2codepoint, entitydefs
 
@@ -36,6 +37,11 @@ class MetaParser(sgmllib.SGMLParser):
     def parse(self, s):
         self.feed(s)
         self.close()
+
+    def clean(self, val):
+        val = val.strip().replace('\n', '')
+        val = re.compile('\s+').sub(' ', val)
+        return val
 
     def save_bgn(self):
         self.save = True
@@ -57,14 +63,14 @@ class MetaParser(sgmllib.SGMLParser):
                 key = a[1]
 
         if key and val:
-            self.meta[key] = val.replace('\n', '').strip()
+            self.meta[key] = self.clean(val)
 
     def start_title(self, attr):
         self.save_bgn()
 
     def handle_data(self, data):
         if self.save:
-            self.data += data.replace('\n', '').strip()
+            self.data += self.clean(data)
         else:
             self.data = ''
 
