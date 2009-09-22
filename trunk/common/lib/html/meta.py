@@ -57,9 +57,12 @@ class MetaParser(sgmllib.SGMLParser):
         for a in attr:
             if len(a) != 2:
                 continue
-            elif a[0] == 'content':
+
+            attr_name = a[0].lower()
+
+            if attr_name == 'content':
                 val = a[1]
-            elif a[0] == 'http-equiv' or a[0] == 'name':
+            elif attr_name == 'http-equiv' or attr_name == 'name':
                 key = a[1]
 
         if key and val:
