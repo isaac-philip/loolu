@@ -26,7 +26,6 @@ import re
 from django.conf              import settings 
 from django.forms             import ValidationError
 from django.utils.translation import ugettext_lazy as _
-from google.appengine.api     import memcache
 
 from common.lib.url        import URL
 from common.lib.url        import URLHash
@@ -204,12 +203,7 @@ class ShortURLForm(ModelForm):
         shortURL.put()
 
         if uncache:
-            key = '/memcache/ShortURL/%s/%s' % (host, shortURL.slug)  
-            memcache.delete(key)
-    
-            if shortURL.custom_slug:
-                key = '/memcache/ShortURL/%s/%s' % (host, shortURL.custom_slug) 
-                memcache.delete(key)
+            shortURL.uncache()
     
         return shortURL
          

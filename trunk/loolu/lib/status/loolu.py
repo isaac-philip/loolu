@@ -53,10 +53,20 @@ class URLOpenFailed(Status):
                     "Are you sure this is a valid URL?", url, code) 
 
 
+class InvitationOnly(Status):
+    def __str__(self):
+        return 'ERR_INVITATION_ONLY'
+
+    def __init__(self):
+        super(InvitationOnly, self).__init__(103, HTTP_STATUS_BAD_REQ,
+              None, "Service is currently only open by invitation only.")
+
+
 _STATUS_OBJECTS = [
     SlugNotFound(None),
     SlugInUse(None),
     URLOpenFailed(None, None),
+    InvitationOnly(),
 ]
 
 

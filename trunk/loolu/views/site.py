@@ -21,8 +21,6 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 """
 
-from google.appengine.api import memcache
-
 from django.http import Http404, HttpResponsePermanentRedirect
 
 from common.lib.counter  import CounterShard
@@ -30,29 +28,23 @@ from loolu.models import ShortURL
 
 
 def expand(request, slug, privacy_code=None):
-    host = request.get_host() 
-    key = '/memcache/ShortURL/%s/%s' % (host, slug)
-
-    cache = memcache.get(key)
-    if not cache:
+    host = request.get_host()
+    shortURL = ShortURL.get_cache(host, slug)
+    if not shortURL:
         shortURL = ShortURL.find_slug(host, slug)
         if shortURL:
-            cache = {'url':  shortURL.long_url,
-                     'slug': shortURL.slug,
-                     'code': shortURL.privacy_code}
+            shortURL.cache()
 
-            memcache.set(key, cache)
-
-    if not cache:
+    if not shortURL:
         raise Http404
 
-    if cache.get('code') and privacy_code != cache.get('code'):
+    if shortURL.privacy_code and privacy_code != shortURL.privacy_code:
         raise Http404
 
     setattr(request, 'logrequest', 1)
 
-    counter = CounterShard('ShortURL', host, cache['slug'])
+    counter = CounterShard('ShortURL', host, shortURL.slug)
     counter.incr()
 
-    return HttpResponsePermanentRedirect(cache['url'])
+    return HttpResponsePermanentRedirect(shortURL.long_url)
 

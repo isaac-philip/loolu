@@ -60,7 +60,4 @@ urlpatterns = patterns('',
 
     (r'^api/(?P<protocol>(json|xml))/(?P<fxn>[\w-]+)/$',
       'loolu.views.api.handle_api_call', {'ver': None}),
-
-    ## Reset DB
-    (r'^hidden/reset_db/$', 'loolu.views.hidden.reset_db'),
 ) + urlpatterns
