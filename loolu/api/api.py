@@ -27,9 +27,9 @@ from django.conf import settings
 from urllib2     import urlopen, URLError
 from google.appengine.api.labs.taskqueue import taskqueue
 
+from loolu.lib.status import *
 from loolu.models     import ShortURL 
 from loolu.forms      import ShortURLForm
-from loolu.lib.status import Status, URLOpenFailed, SlugNotFound, InternalError
 from common.lib.html  import MetaParser 
 
 
@@ -69,6 +69,7 @@ class API(object):
  
     def shorten(self, request, *args, **kw):
         status = Status()
+        ip = request.META.get('REMOTE_ADDR')
 
         try:  
             form = ShortURLForm(request)
@@ -110,8 +111,10 @@ class API(object):
         try:
             f = urlopen(shortURL.long_url)
 
-            shortURL.final_url    = f.geturl()
-            shortURL.content_type = f.info().get('Content-type')
+            if shortURL.long_url != f.geturl(): 
+                shortURL.final_url    = f.geturl()
+            if f.info().get('Content-type'):
+                shortURL.content_type = f.info().get('Content-type').lower()
 
             if shortURL.content_type.count('html'):
                 p = MetaParser()
