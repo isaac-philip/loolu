@@ -133,27 +133,27 @@ class ShortURL(db.Model):
         return shortURL
 
     @staticmethod
-    def cache_key(host, slug):
+    def get_cache_key(host, slug):
         return '/memcache/ShortURL/%s/%s' % (host, slug)  
 
     @staticmethod
     def get_cache(host, slug):
-        return memcache.get(ShortURL.cache_key(host, slug))
+        return memcache.get(ShortURL.get_cache_key(host, slug))
  
     def cache(self, time=0):
         data = ShortURLCache(self)
 
-        memcache.set(ShortURL.cache_key(self.host, self.slug), data, time)
+        memcache.set(ShortURL.get_cache_key(self.host, self.slug), data, time)
 
         if self.custom_slug:
-            memcache.set(ShortURL.cache_key(self.host, self.custom_slug),
+            memcache.set(ShortURL.get_cache_key(self.host, self.custom_slug),
                 data, time)
 
         return data
  
     def uncache(self):
-        memcache.delete(ShortURL.cache_key(self.host, self.slug))
+        memcache.delete(ShortURL.get_cache_key(self.host, self.slug))
     
         if self.custom_slug:
-            memcache.delete(ShortURL.cache_key(self.host, self.custom_slug))
+            memcache.delete(ShortURL.get_cache_key(self.host, self.custom_slug))
   
