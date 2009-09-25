@@ -21,6 +21,8 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 """
 
+import logging, traceback
+
 from common.lib.http.status import *
 from common.lib.serialize   import *
 
@@ -57,11 +59,12 @@ class InternalError(Status):
     def __str__(self):
         return 'ERR_INTERNAL_ERROR'
 
-    def __init__(self, msg):
+    def __init__(self):
         super(InternalError, self).__init__(1, HTTP_STATUS_INT_ERROR,
               None, "Oh noes! We seemed to have experienced an internal " +
                     "error. Please try again later.")
 
+        logging.error(traceback.format_exc())
 
 class InvalidAPIMethod(Status):
     def __str__(self):
@@ -131,7 +134,7 @@ class NoChanges(Status):
 
 _STATUS_OBJECTS = [
     Status(),
-    InternalError(None),
+    InternalError(),
     InvalidAPIMethod(None),
     InvalidAPIVersion(None),
     InvalidAPI(None),
