@@ -41,6 +41,7 @@ class MetaParser(sgmllib.SGMLParser):
     def clean(self, val):
         val = val.strip().replace('\n', '')
         val = re.compile('\s+').sub(' ', val)
+        val = unicode(val, 'utf-8').encode('ascii', 'ignore')
         return val
 
     def save_bgn(self):
