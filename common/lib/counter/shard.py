@@ -24,7 +24,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 import random
 
 from google.appengine.ext import db
-from google.appengine.api import memcache
+from django.core.cache import cache
 
 
 class CounterShardData(db.Model):
@@ -47,7 +47,7 @@ class CounterShard():
 
     def value(self, default=0):
         if self.cache_lifetime > 0:
-            value = memcache.get(self.key_name)
+            value = cache.get(self.key_name)
             if value != None:
                 return value
 
@@ -57,7 +57,7 @@ class CounterShard():
 
         if self.cache_lifetime and (self.cache_on_val == None or
            value >= self.cache_on_val):
-            memcache.set(self.key_name, value, self.cache_lifetime)
+            cache.set(self.key_name, value, self.cache_lifetime)
 
         return value
 
