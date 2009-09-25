@@ -21,7 +21,7 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 """
 
-import sys, time
+import sys, time, logging
 
 from django.http import HttpResponse
 
@@ -52,6 +52,7 @@ def handle_api_call(request, ver, protocol, fxn):
             else:
                 status = InvalidAPI(fxn)
     except:
+        logging.error(str(sys.exc_info()[1]))
         status = InternalError(str(sys.exc_info()[1]))
 
     if api: status.set('api_version', api.version) 

@@ -21,7 +21,7 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 """
 
-import sys
+import sys, logging
 
 from django.conf import settings 
 from urllib2     import urlopen, URLError
@@ -104,6 +104,7 @@ class API(object):
    
             status.get('results').append(shortURL.to_dict())
         except:
+            logging.error(str(sys.exc_info()[1]))
             status = InternalError(str(sys.exc_info()[1]))
     
         return status
@@ -130,6 +131,7 @@ class API(object):
         except URLError, e:
             status = URLOpenFailed(shortURL.long_url, e.code) 
         except:
+            logging.error(str(sys.exc_info()[1]))
             status = InternalError(str(sys.exc_info()[1]))
 
         return status

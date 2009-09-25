@@ -59,7 +59,8 @@ class InternalError(Status):
 
     def __init__(self, msg):
         super(InternalError, self).__init__(1, HTTP_STATUS_INT_ERROR,
-              None, "Internal Error: %s", msg)
+              None, "Oh noes! We seemed to have experienced an internal " +
+                    "error. Please try again later.")
 
 
 class InvalidAPIMethod(Status):
