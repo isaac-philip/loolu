@@ -34,17 +34,15 @@ def expand(request, slug, privacy_code=None):
         shortURL = ShortURL.find_slug(host, slug)
         if shortURL:
             shortURL.cache()
-
-    if not shortURL:
-        raise Http404
+        else:
+            raise Http404
 
     if shortURL.privacy_code and privacy_code != shortURL.privacy_code:
         raise Http404
 
     setattr(request, 'logrequest', 1)
 
-    counter = CounterShard('ShortURL', host, shortURL.slug)
-    counter.incr()
+    CounterShard('ShortURL', host, shortURL.slug).incr()
 
     return HttpResponsePermanentRedirect(shortURL.long_url)
 
