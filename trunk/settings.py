@@ -32,12 +32,11 @@ SITE_ID = 1
 # automatically becomes /media/MEDIA_VERSION/
 MEDIA_VERSION = 4
 
-
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = '1234567890'
 
 if on_production_server:
-    DEFAULT_FROM_EMAIL = 'bla@bla.com'
+    DEFAULT_FROM_EMAIL = 'admin@loo.lu'
     SERVER_EMAIL = DEFAULT_FROM_EMAIL
     MEDIA_URL = 'http://static.loo.lu/media/%d/'
 else:
@@ -64,12 +63,17 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
+    #'django.middleware.cache.UpdateCacheMiddleware',
     'common.middleware.LogRequestMiddleware',
 )
 
 GLOBALTAGS = (
 
 )
+
+DATABASE_ENGINE = 'appengine'
+
+CACHE_BACKEND = 'memcached://?timeout=300'
 
 SESSION_ENGINE      = 'django.contrib.sessions.backends.db'
 SESSION_COOKIE_AGE  = 5*(365*24*60*60) # 5 Years 

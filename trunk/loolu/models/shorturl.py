@@ -22,7 +22,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 """
 
 from google.appengine.ext import db
-from google.appengine.api     import memcache
+from django.core.cache import cache
 
 
 class ShortURLCache(object):
@@ -134,26 +134,26 @@ class ShortURL(db.Model):
 
     @staticmethod
     def get_cache_key(host, slug):
-        return '/memcache/ShortURL/%s/%s' % (host, slug)  
+        return '/cache/ShortURL/%s/%s' % (host, slug)  
 
     @staticmethod
     def get_cache(host, slug):
-        return memcache.get(ShortURL.get_cache_key(host, slug))
+        return cache.get(ShortURL.get_cache_key(host, slug))
  
     def cache(self, time=0):
         data = ShortURLCache(self)
 
-        memcache.set(ShortURL.get_cache_key(self.host, self.slug), data, time)
+        cache.set(ShortURL.get_cache_key(self.host, self.slug), data, time)
 
         if self.custom_slug:
-            memcache.set(ShortURL.get_cache_key(self.host, self.custom_slug),
+            cache.set(ShortURL.get_cache_key(self.host, self.custom_slug),
                 data, time)
 
         return data
  
     def uncache(self):
-        memcache.delete(ShortURL.get_cache_key(self.host, self.slug))
+        cache.delete(ShortURL.get_cache_key(self.host, self.slug))
     
         if self.custom_slug:
-            memcache.delete(ShortURL.get_cache_key(self.host, self.custom_slug))
+            cache.delete(ShortURL.get_cache_key(self.host, self.custom_slug))
   
