@@ -21,10 +21,16 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 """
 
+import os
+
+from django.conf import settings
 from django.conf.urls.defaults import *
 from ragendja.urlsauto import urlpatterns
 
+
 handler500 = 'ragendja.views.server_error'
+base_path  = os.path.abspath(os.path.dirname(__file__)) 
+
 
 urlpatterns = patterns('django.views.generic.simple',
     (r'^url-shortener/$', 'direct_to_template',
@@ -41,6 +47,10 @@ urlpatterns = patterns('django.views.generic.simple',
 ) + urlpatterns
 
 urlpatterns = patterns('',
+    (r'^(?P<path>robots.txt)$', 'django.views.static.serve', {
+      'document_root': os.path.join(base_path, 'loolu/media/txt/'),
+      'show_indexes': False}),
+
     ## / - Redirect => /url-shortener/
     (r'^$', 'common.views.permanent_redirect',
      {'redirect_to': '/url-shortener/'}),
