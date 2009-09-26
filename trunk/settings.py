@@ -35,9 +35,11 @@ MEDIA_VERSION = 5
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = '1234567890'
 
+DEFAULT_FROM_EMAIL = 'admin@loo.lu'
+SERVER_EMAIL = DEFAULT_FROM_EMAIL
+
 if on_production_server:
-    DEFAULT_FROM_EMAIL = 'admin@loo.lu'
-    SERVER_EMAIL = DEFAULT_FROM_EMAIL
+    DEBUG = 0
     MEDIA_URL = 'http://static.loo.lu/media/%d/'
 else:
     DEBUG = 1
@@ -58,11 +60,15 @@ LANGUAGES = (
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.core.context_processors.auth',
     'django.core.context_processors.media',
+    'django.core.context_processors.request',
+    'django.core.context_processors.i18n',
 )
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
     #'django.middleware.cache.UpdateCacheMiddleware',
     'common.middleware.LogRequestMiddleware',
 )
@@ -86,9 +92,10 @@ LOGIN_REDIRECT_URL = '/'
 INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.admin',
-    'loolu',
+    'django.contrib.auth',
     'jquery',
     'mediautils',
+    'loolu',
 )
 
 # List apps which should be left out from app settings and urlsauto loading
