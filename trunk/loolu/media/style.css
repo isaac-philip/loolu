@@ -38,7 +38,6 @@
     body
     {
         line-height:1.5;
-        
     }
     table
     {
@@ -496,10 +495,9 @@
         font-size:10pt;
         
     }
-    .container
+    #container
     {
         background:none;
-        
     }
     hr
     {
@@ -589,10 +587,13 @@
 }
 @media screen,projection
 {
+    html 
+    {
+        height: 100%;        
+    }
     body
     {
         min-width:950px;
-        
     }
     a
     {
@@ -609,7 +610,6 @@
         width:80%;
         min-width:70%;
         margin:0 auto;
-        
     }
     #header
     {
