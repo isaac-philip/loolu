@@ -25,12 +25,16 @@ import os
 
 from django.conf import settings
 from django.conf.urls.defaults import *
+from django.contrib import admin
 from ragendja.urlsauto import urlpatterns
+from ragendja.auth.urls import urlpatterns as auth_patterns
 
+admin.autodiscover()
 
 handler500 = 'ragendja.views.server_error'
 base_path  = os.path.abspath(os.path.dirname(__file__)) 
 
+urlpatterns = auth_patterns
 
 urlpatterns = patterns('django.views.generic.simple',
     (r'^url-shortener/$', 'direct_to_template',
@@ -47,9 +51,14 @@ urlpatterns = patterns('django.views.generic.simple',
 ) + urlpatterns
 
 urlpatterns = patterns('',
+    # robots.txt
     (r'^(?P<path>robots.txt)$', 'django.views.static.serve', {
       'document_root': os.path.join(base_path, 'loolu/media/txt/'),
       'show_indexes': False}),
+
+    # Admin
+    ('^admin/(.*)', admin.site.root),
+    (r'^create_admin_user/$', 'loolu.views.admin.create_admin_user'),
 
     ## / - Redirect => /url-shortener/
     (r'^$', 'common.views.permanent_redirect',
