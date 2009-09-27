@@ -23,11 +23,12 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 import os
 
-from django.conf import settings
-from django.conf.urls.defaults import *
 from django.contrib import admin
+from django.conf.urls.defaults import *
+
 from ragendja.urlsauto import urlpatterns
 from ragendja.auth.urls import urlpatterns as auth_patterns
+
 
 admin.autodiscover()
 
@@ -36,47 +37,50 @@ base_path  = os.path.abspath(os.path.dirname(__file__))
 
 urlpatterns = auth_patterns
 
+
+# Redirects 
 urlpatterns = patterns('django.views.generic.simple',
-    (r'^url-shortener/$', 'direct_to_template',
-     {'template': 'url-shortener.html'}),
-
-    (r'^api/$', 'direct_to_template',
-     {'template': 'api.html'}),
- 
-    (r'^privacy/$',       'direct_to_template',
-     {'template': 'privacy.html'}),
-
-    (r'^terms/$',         'direct_to_template',
-     {'template': 'terms.html'}),
+    # / => /url-shortener/
+    (r'^$', 'redirect_to', {'url': '/url-shortener/', 'permanent': True}),
 ) + urlpatterns
 
+# Static Files 
 urlpatterns = patterns('',
     # robots.txt
     (r'^(?P<path>robots.txt)$', 'django.views.static.serve', {
       'document_root': os.path.join(base_path, 'loolu/media/txt/'),
       'show_indexes': False}),
+) + urlpatterns
 
+# Django Admin 
+urlpatterns = patterns('',
     # Admin
     ('^admin/(.*)', admin.site.root),
     (r'^create_admin_user/$', 'loolu.views.admin.create_admin_user'),
-
-    ## / - Redirect => /url-shortener/
-    (r'^$', 'common.views.permanent_redirect',
-     {'redirect_to': '/url-shortener/'}),
-
-    ## Expand Slug
-    (r'^(?P<slug>[\w\-]+)$',
-      'loolu.views.site.expand'),
-    (r'^(?P<slug>[\w\-]+)[+](?P<privacy_code>[\w\-]+)$',
-      'loolu.views.site.expand'),
-
-    ## Task Queue Handlers
-    (r'^work/process_short_url/$',  'loolu.views.work.process_short_url'),
-
-    ## API 
-    (r'^api/v(?P<ver>[\d\.]+)/(?P<protocol>(json|xml))/(?P<fxn>[\w-]+)/$',
-      'loolu.views.api.handle_api_call'),
-
-    (r'^api/(?P<protocol>(json|xml))/(?P<fxn>[\w-]+)/$',
-      'loolu.views.api.handle_api_call', {'ver': None}),
 ) + urlpatterns
+
+# App URLs 
+urlpatterns = patterns('loolu.views',
+    # Flat pages
+    (r'^(?P<page>url-shortener)/*$', 'site.render_from_template'),
+    (r'^(?P<page>faq)/*$',           'site.render_from_template'),
+    (r'^(?P<page>api)/*$',           'site.render_from_template'),
+    (r'^(?P<page>code)/*$',          'site.render_from_template'),
+    (r'^(?P<page>terms)/*$',         'site.render_from_template'),
+    (r'^(?P<page>privacy)/*$',       'site.render_from_template'),
+
+    # Expand Slug
+    (r'^(?P<slug>[\w\-]+)$',         'site.expand_slug'),
+    (r'^(?P<slug>[\w\-]+)[+](?P<privacy_code>[\w\-]+)$',
+      'site.expand_slug'),
+
+    # Task Queue Handlers
+    (r'^work/process_short_url/$',   'work.process_short_url'),
+
+    # API 
+    (r'^api/v(?P<ver>[\d\.]+)/(?P<protocol>(json|xml))/(?P<fxn>[\w-]+)/$',
+      'api.handle_api_call'),
+    (r'^api/(?P<protocol>(json|xml))/(?P<fxn>[\w-]+)/$',
+      'api.handle_api_call', {'ver': None}),
+) + urlpatterns
+
