@@ -67,7 +67,6 @@ class API(object):
  
     def shorten(self, request, *args, **kw):
         status = Status()
-        ip = request.META.get('REMOTE_ADDR')
 
         try: 
             form = ShortURLForm(request)
@@ -75,7 +74,6 @@ class API(object):
                 return form.status()
 
             """
-            Web Sessions Only:
             Force Django to allocate and save the session key
             to the backend cache/DB/file by setting assigning
             at least one session key
@@ -89,11 +87,16 @@ class API(object):
             """
             shortURL = form.save()
 
-            if settings.SPIDER_ENABLED:
-                if not settings.SPIDER_IN_BACKGROUND:
-                    status = self.process_short_url(shortURL)
-                else:
-                    taskqueue.add(url='/work/process_short_url/', method='GET',
+            if not shortURL:
+                return InternalError()
+
+            if not shortURL.content_type:
+                if getattr(settings, 'SPIDER_ENABLED', False):
+                    if not getattr(settings, 'SPIDER_IN_BACKGROUND'):
+                        status = self.process_short_url(shortURL)
+                    else:
+                        taskqueue.add(url='/work/process_short_url/',
+                          method='GET',
                           params=dict(url=shortURL.long_url, host=shortURL.host,
                           slug=shortURL.slug))
    
