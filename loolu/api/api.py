@@ -69,9 +69,6 @@ class API(object):
         status = Status()
         ip = request.META.get('REMOTE_ADDR')
 
-#        if ip != '76.20.0.241' and ip != '67.115.118.49':
-#            return InvitationOnly()
-
         try: 
             form = ShortURLForm(request)
             if not form.is_valid():
