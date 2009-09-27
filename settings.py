@@ -30,7 +30,7 @@ SITE_ID = 1
 # Increase this when you update your media on the production site, so users
 # don't have to refresh their cache. By setting this your MEDIA_URL
 # automatically becomes /media/MEDIA_VERSION/
-MEDIA_VERSION = 5 
+MEDIA_VERSION = 6 
 
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = '1234567890'
@@ -41,9 +41,11 @@ SERVER_EMAIL = DEFAULT_FROM_EMAIL
 if on_production_server:
     DEBUG = 0
     MEDIA_URL = 'http://static.loo.lu/media/%d/'
+    ADMIN_MEDIA_PREFIX= '%sadmin_media/'
 else:
     DEBUG = 1
-    MEDIA_URL = '/%d/'
+    MEDIA_URL = '/media/%d/'
+    ADMIN_MEDIA_PREFIX= '%sadmin_media/'
     #ENABLE_PROFILER = True
     #ONLY_FORCED_PROFILE = True
     #PROFILE_PERCENTAGE = 25
@@ -53,6 +55,9 @@ else:
 # Enable I18N and set default language to 'en'
 USE_I18N = True
 LANGUAGE_CODE = 'en'
+
+# Append trailing slashes to URLs (requires CommonMiddleware)
+APPEND_SLASH=True
 
 # Restrict supported languages (and JS media generation)
 LANGUAGES = (
@@ -67,6 +72,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 )
 
 MIDDLEWARE_CLASSES = (
+    'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     #'django.middleware.cache.UpdateCacheMiddleware',
@@ -100,7 +106,8 @@ INSTALLED_APPS = (
 
 # List apps which should be left out from app settings and urlsauto loading
 IGNORE_APP_SETTINGS = IGNORE_APP_URLSAUTO = (
-
+    'django.contrib.admin',
+    'django.contrib.auth',
 )
 
 LOG_REQUEST_REQ_OBJ=True
