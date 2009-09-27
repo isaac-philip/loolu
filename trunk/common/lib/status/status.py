@@ -61,8 +61,9 @@ class InternalError(Status):
 
     def __init__(self):
         super(InternalError, self).__init__(1, HTTP_STATUS_INT_ERROR,
-              None, "Oh noes! We seemed to have experienced an internal " +
-                    "error. Please try again later.")
+              None, "We're sorry, but something went wrong. \n" + 
+                    "We've been notified about this issue and " +
+                    "we'll take a look at it shortly.")
 
         logging.error(traceback.format_exc())
 
