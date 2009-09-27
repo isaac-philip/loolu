@@ -21,15 +21,24 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 """
 
-from django.http import Http404, HttpResponsePermanentRedirect
+from django.views.generic.simple import direct_to_template
+from django.http import Http404, HttpResponse, HttpResponsePermanentRedirect
 
 from common.lib.counter  import CounterShard
 from loolu.models import ShortURL 
 
 
-def expand(request, slug, privacy_code=None):
+def render_from_template(request, page, append_slash=True):
+    if append_slash and not request.path.endswith('/'):
+        return HttpResponsePermanentRedirect(request.path + '/')
+
+    return direct_to_template(request, page + '.html')
+
+
+def expand_slug(request, slug, privacy_code=None):
     host = request.get_host()
     shortURL = ShortURL.get_cache(host, slug)
+
     if not shortURL:
         shortURL = ShortURL.find_slug(host, slug)
         if shortURL:

@@ -57,7 +57,7 @@ USE_I18N = True
 LANGUAGE_CODE = 'en'
 
 # Append trailing slashes to URLs (requires CommonMiddleware)
-APPEND_SLASH=True
+APPEND_SLASH = True
 
 # Restrict supported languages (and JS media generation)
 LANGUAGES = (
@@ -72,10 +72,8 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 )
 
 MIDDLEWARE_CLASSES = (
-    'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    #'django.middleware.cache.UpdateCacheMiddleware',
     'common.middleware.LogRequestMiddleware',
 )
 
