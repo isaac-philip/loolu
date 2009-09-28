@@ -68,6 +68,10 @@ class API(object):
     def shorten(self, request, *args, **kw):
         status = Status()
 
+        ip = request.META.get('REMOTE_ADDR')
+        if ip != '127.0.0.1' and ip != '76.20.0.241' and ip != '67.115.118.49':
+            return InvitationOnly()
+
         try: 
             form = ShortURLForm(request)
             if not form.is_valid():
