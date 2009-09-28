@@ -108,8 +108,7 @@ IGNORE_APP_SETTINGS = IGNORE_APP_URLSAUTO = (
     'django.contrib.auth',
 )
 
-LOG_REQUEST_REQ_OBJ=True
-#LOG_REQUEST_REGEX='[/]([\w\-])+([+][\w\-]+)*$'
+LOG_REQUEST_ALL=False
 
 MAX_URL_LEN          = 500 
 MAX_DESCRIPTION_LEN  = 100

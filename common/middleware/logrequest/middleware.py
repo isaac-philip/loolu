@@ -21,7 +21,7 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 """
 
-import re
+import re, logging
 
 from urlparse import urlparse
 from django.conf import settings
@@ -30,18 +30,19 @@ from model import PageRequest
 
 
 class LogRequestMiddleware(object):
-    def process_response(self, request, response):
-        if hasattr(settings, 'LOG_REQUEST_REQ_OBJ'):
-            if not hasattr(request, 'logrequest') or not request.logrequest:
-                return response
-        elif hasattr(settings, 'LOG_REQUEST_REGEXP'):
-            p = re.compile(settings.LOG_REQUEST_REGEXP)
-            if not p.match(request.path):
-                return response
+    def process_request(self, request):
+        setattr(request, 'logrequest', getattr(
+                settings, 'LOG_REQUEST_ALL', True))
 
-        referrer_host  = None
-        referrer_uri   = None
-        referrer       = request.META.get('HTTP_REFERER') 
+        return None
+
+    def process_response(self, request, response):
+        if not hasattr(request, 'logrequest') or not request.logrequest:
+            return response
+
+        referrer_host = None
+        referrer_uri  = None
+        referrer      = request.META.get('HTTP_REFERER') 
  
         if referrer:
             (p, referrer_host, referrer_uri, d, q, f) = urlparse(
@@ -78,6 +79,6 @@ class LogRequestMiddleware(object):
         try:
             log.put()
         except:
-            pass # TODO Generate a system log
+            logging.error(traceback.format_exc())
 
         return response
