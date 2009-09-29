@@ -21,10 +21,9 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 """
 
-from django.conf import settings 
-from django.http import HttpResponse
+from django.http      import HttpResponse
 
-from loolu.models import ShortURL 
+from loolu.models     import ShortURL 
 from loolu.api        import * 
 from loolu.lib.status import *
 
@@ -34,13 +33,12 @@ def process_short_url(request):
     host   = request.GET.get('host')
     slug   = request.GET.get('slug')
 
-    if settings.SPIDER_ENABLED and settings.SPIDER_IN_BACKGROUND:
-        shortURL = ShortURL.find_slug(host, slug)
-        if not shortURL:
-            status = SlugNotFound(slug)
-        else:
-            api = APIFactory.create()
-            status = api.process_short_url(shortURL)
+    shortURL = ShortURL.find_slug(host, slug)
+    if not shortURL:
+        status = SlugNotFound(slug)
+    else:
+        api = APIFactory.create()
+        status = api.process_short_url(shortURL)
  
     return HttpResponse(status.get('message'))
     
