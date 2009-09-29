@@ -29,6 +29,8 @@ from loolu.lib.status import *
 from loolu.models     import ShortURL 
 from loolu.forms      import ShortURLForm
 from common.lib.html  import MetaParser 
+from common.lib.http  import HTTP_STATUS_OK 
+from common.lib.url   import URL
 
 
 class API(object):
@@ -72,18 +74,30 @@ class API(object):
         if ip != '127.0.0.1' and ip != '76.20.0.241' and ip != '67.115.118.49':
             return InvitationOnly()
 
-        try: 
+        try:
+            urlData = None
+ 
+            if request.GET.get('long_url') and getattr(
+               settings, 'SPIDER_ENABLED', False) and not getattr(
+               settings, 'SPIDER_IN_BACKGROUND'):
+                urlData = self.fetch_url(request.GET.get('long_url'))
+
+                if urlData and urlData.get('status_code') != HTTP_STATUS_OK:
+                    return URLOpenFailed(request.GET.get('long_url'),
+                                         urlData.get('status_code')) 
+
             form = ShortURLForm(request)
             if not form.is_valid():
                 return form.status()
 
-            """
-            Force Django to allocate and save the session key
-            to the backend cache/DB/file by setting assigning
-            at least one session key
-            """
             api_key = request.GET.get('api_key') 
             if not api_key and not request.session.get('key', None):
+                """
+                To avoid a hit to the DB, we currently only create a session
+                when a user shortens a URL. The following forces Django
+                to allocate and save a session to the backend by assigning at
+                least one session key
+                """
                 request.session['key'] = request.session.session_key
 
             """
@@ -97,40 +111,77 @@ class API(object):
             if not shortURL.content_type:
                 if getattr(settings, 'SPIDER_ENABLED', False):
                     if not getattr(settings, 'SPIDER_IN_BACKGROUND'):
-                        status = self.process_short_url(shortURL)
+                        status = self.process_short_url(shortURL, urlData)
                     else:
                         taskqueue.add(url='/work/process_short_url/',
-                          method='GET',
-                          params=dict(url=shortURL.long_url, host=shortURL.host,
-                          slug=shortURL.slug))
+                            method='GET',
+                            params=dict(url=shortURL.long_url,
+                            host=shortURL.host,
+                            slug=shortURL.slug))
    
             status.get('results').append(shortURL.to_dict())
         except:
             status = InternalError()
     
         return status
-  
-    def process_short_url(self, shortURL):
-        status = Status()
+
+    def fetch_url(self, url):
+        data = {
+            'title':        None,
+            'final_url':    None,
+            'content_type': None,
+            'status_code':  -1
+        }
 
         try:
-            f = urlopen(shortURL.long_url)
+            f = urlopen(URL(url).str())
 
-            if shortURL.long_url != f.geturl(): 
-                shortURL.final_url    = f.geturl()
+            data['final_url'] = f.geturl()
+            data['status_code'] = HTTP_STATUS_OK
+
             if f.info().get('Content-type'):
-                shortURL.content_type = f.info().get('Content-type').lower()
+                data['content_type'] = f.info().get('Content-type').lower()
 
-            if shortURL.content_type.count('html'):
+            if data['content_type'].count('html'):
                 p = MetaParser()
                 p.parse(f.read())
 
                 if p.title:
-                    shortURL.title = p.title
-
-            shortURL.put()  
+                    data['title'] = p.title
         except URLError, e:
-            status = URLOpenFailed(shortURL.long_url, e.code) 
+            data['status_code'] = e.code
+        except ValueError, e:
+            data['status_code'] = -1
+        except Exception, e:
+            data['status_code'] = -1
+
+        return data
+ 
+    def process_short_url(self, shortURL, data=None):
+        status = Status()
+
+        try:
+            modified = 0
+
+            if not data:
+                data = self.fetch_url(shortURL.long_url)
+
+            if data.get('status_code') != HTTP_STATUS_OK:
+                return URLOpenFailed(shortURL.long_url, data.get('status_code')) 
+            if data.get('final_url') and shortURL.long_url != data['final_url']:
+                modified += 1
+                shortURL.final_url = data['final_url']
+ 
+            if data.get('Content-type'):
+                modified += 1
+                shortURL.content_type = data['Content-type'].lower()
+
+            if data.get('title'):
+                modified += 1
+                shortURL.title = data['title']
+   
+            if modified: 
+                shortURL.put()  
         except:
             status = InternalError()
 
