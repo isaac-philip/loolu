@@ -63,6 +63,7 @@ class URL(object):
     
        self.modified = 0
        self.url = urlunparse(self.parts)
+       self.url = self.url.replace('///', '//') # workaround for urlunparse bug!
 
        return self.url
 
