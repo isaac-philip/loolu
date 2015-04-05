@@ -1,0 +1,1 @@
+LooLu is an open source URL/link shortener with the some of the same features commonly found on bit.ly, tr.im and other similar services. LooLu was designed with scalability and reliability in mind and uses Google's AppEngine as the service backbone! Check out the live demo on http://my.loo.lu/url-shortener/
